@@ -2,7 +2,7 @@
   #===============================================
   # Project: nm4alpine / v0.3
   # Author:  ConzZah / ©️ 2025
-  # Last Modification: 28.02.25 / 12:13
+  # Last Modification: 11.03.25 / 12:13
   # https://github.com/ConzZah/nm4alpine
   #===============================================
 
@@ -48,4 +48,4 @@ doas rc-service "$nm" restart
 doas rc-update del networking boot
 doas rc-update del wpa_supplicant boot
 doas rc-service -S "$wifi_backend" start
-echo -e "\nDONE, HAVE A GREAT DAY :D \n" sleep 1; exit 
+echo -e "\nDONE, HAVE A GREAT DAY :D \n"; exit 
