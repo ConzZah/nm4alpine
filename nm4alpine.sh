@@ -1,8 +1,8 @@
 #!/bin/sh
   #===============================================
-  # Project: nm4alpine / v0.3
+  # Project: nm4alpine / v0.4
   # Author:  ConzZah / ©️ 2025
-  # Last Modification: 11.03.25 / 12:13
+  # Last Modification: 16.03.25 / 18:07
   # https://github.com/ConzZah/nm4alpine
   #===============================================
 
@@ -39,13 +39,17 @@ doas mv -f NetworkManager.conf /etc/NetworkManager/NetworkManager.conf
 # add current user to plugdev group
 doas adduser "$USER" plugdev
 
+# symlink iptables to /sbin/iptables so wifi & bluetooth ap's ACTUALLY work
+[ ! -f /sbin/iptables ] && doas ln -s /usr/sbin/iptables /sbin/iptables
+
 # stop conflicting services & add nm as default
 doas rc-service -S "$nm" start
 doas rc-update add "$nm" default
 doas rc-service -s networking stop
 doas rc-service -s wpa_supplicant stop
-doas rc-service "$nm" restart
 doas rc-update del networking boot
 doas rc-update del wpa_supplicant boot
+doas rc-service "$nm" restart
 doas rc-service -S "$wifi_backend" start
+[ "$wifi_backend" = "iwd" ] && doas rc-update add iwd
 echo -e "\nDONE, HAVE A GREAT DAY :D \n"; exit 
